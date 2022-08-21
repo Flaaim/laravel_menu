@@ -10,7 +10,9 @@
     <title>Document</title>
 </head>
 <body>
+    @auth
     {!! $sidebar !!}
+    @endauth
     {!! $navbar !!}
     <div class="container">
         <div class="row justify-content-center">

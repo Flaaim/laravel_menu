@@ -10,6 +10,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">{{$user->email}}</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{route('logout')}}">Logout</a>
+        </li>
       </ul>
       @endauth
     </div>
