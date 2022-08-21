@@ -1,1 +1,1 @@
-DASHBOARD
+hello {{$user->name}}!!
