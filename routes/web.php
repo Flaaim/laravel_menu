@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,5 +28,16 @@ Route::middleware('guest')->group(function(){
 Route::middleware('auth')->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
-    
+
+    Route::controller(RoleController::class)->group(function(){
+        Route::get('/roles', 'view')->name('roles.view');
+        Route::get('/roles/create', 'create')->name('roles.create');
+    });
+
+
+    Route::controller(PermissionController::class)->group(function(){
+        Route::get('/permissions', 'view')->name('permissions.view');
+        Route::post('/permissions', 'store')->name('permissions.store');
+    });
+
 });
