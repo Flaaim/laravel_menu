@@ -18,6 +18,7 @@ class RoleController extends Base
     }
 
     public function view(){
+        $this->authorize('view', Role::class);
         $role = Role::all();
         $this->content = view('roles.role')->with(['roles'=>$role])->render();
         return $this->renderOutPut();

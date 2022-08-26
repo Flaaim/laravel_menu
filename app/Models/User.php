@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -41,4 +42,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles(){
+        return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+    public function canDo($alias, $require = false){
+        if(is_array($alias)){
+            foreach($alias as $permAlias){
+                $result = $this->canDo($permAlias);
+                if($result && !$require){
+                    return true;
+                } elseif(!$result && $require){
+                    return false;
+                }
+            }
+        } else {
+            foreach($this->roles as $role){
+                foreach($role->perms as $perm){
+                    if($perm->alias == $alias){
+                        return true;
+                    }
+                }
+                
+            }
+        }
+        return $require;
+    }
 }
