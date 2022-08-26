@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/role', 'store')->name('role.store');
         Route::get('/edit/{role}', 'edit')->name('role.edit');
         Route::put('/{role}', 'update')->name('role.update');
+        Route::delete('/delete/{role}', 'destroy')->name('role.destroy');
     });
 
 

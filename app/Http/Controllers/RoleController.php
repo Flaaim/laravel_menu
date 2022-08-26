@@ -54,5 +54,8 @@ class RoleController extends Base
         return redirect()->route('roles.view');
     }
 
-
+    public function destroy(Role $role){
+        $role->delete();
+        return redirect()->route('roles.view');
+    }
 }

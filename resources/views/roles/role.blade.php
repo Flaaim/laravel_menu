@@ -22,6 +22,12 @@
                 </td>
                 <td>
                     <a href="{{route('role.edit', ['role' => $role->id ])}}" class="btn btn-success">Edit</a>
+                    <form action="{{route('role.destroy', ['role'=> $role->id])}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    
 
                 </td>
             </tr>
