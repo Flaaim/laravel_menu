@@ -35,6 +35,7 @@ class Base extends Controller
         $this->vars = Arr::add($this->vars, 'navbar', $this->navbar);
         $this->sidebar = view('parts.sidebar')->with(['menu'=>$menu])->render();
         $this->vars = Arr::add($this->vars, 'sidebar', $this->sidebar);
+        
         return view($this->template)->with($this->vars);
     }
 

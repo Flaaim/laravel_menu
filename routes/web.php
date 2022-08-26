@@ -31,7 +31,10 @@ Route::middleware('auth')->group(function(){
 
     Route::controller(RoleController::class)->group(function(){
         Route::get('/roles', 'view')->name('roles.view');
-        Route::get('/roles/create', 'create')->name('roles.create');
+        Route::get('/role/create', 'create')->name('role.create');
+        Route::post('/role', 'store')->name('role.store');
+        Route::get('/edit/{role}', 'edit')->name('role.edit');
+        Route::put('/{role}', 'update')->name('role.update');
     });
 
 
