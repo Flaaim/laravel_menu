@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Base;
 use App\Models\Role;
 use App\Http\Controllers\Services\Service;
@@ -31,12 +32,9 @@ class RoleController extends Base
         return $this->renderOutput();
     }
 
-    public function store(Request $request, Role $role){
-        $request->validate([
-            'title'=> 'required',
-            'alias'=>'required',
-        ]);
-
+    public function store(RoleRequest $request, Role $role){
+        $validated = $request->validated();
+        
         $this->service->save($request, new Role);
         return redirect()->route('roles.view');
         

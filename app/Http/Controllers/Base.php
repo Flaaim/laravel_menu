@@ -29,11 +29,12 @@ class Base extends Controller
 
     protected function renderOutput(){
         $menu = $this->getMenu();
-
+        
         $this->vars = Arr::add($this->vars, 'content', $this->content);
         $this->navbar = view('parts.navigation')->with(['user'=>$this->user])->render();
         $this->vars = Arr::add($this->vars, 'navbar', $this->navbar);
         $this->sidebar = view('parts.sidebar')->with(['menu'=>$menu])->render();
+        
         $this->vars = Arr::add($this->vars, 'sidebar', $this->sidebar);
         
         return view($this->template)->with($this->vars);
@@ -42,8 +43,21 @@ class Base extends Controller
     private function getMenu(){
         return Menu::make('renderMenu', function($menu){
             foreach(ModelMenu::MenuByType(ModelMenu::ADMIN_MENU)->get() as $item){
-                $menu->add($item->title, $item->path)->id($item->id);
+                $menu->add($item->title, route($item->path))->id($item->id)->data('permissions', $this->getPermission($item));
+                
             }
+        })->filter(function($item){
+           if($this->user && $this->user->canDo($item->data('permissions'))){
+                return true;
+           }
+           return false;
+           
         });
+    }
+
+    public function getPermission($item){
+        return $item->perms->map(function($item){
+            return $item->alias;
+        })->toArray();
     }
 }
