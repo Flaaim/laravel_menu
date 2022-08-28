@@ -42,3 +42,23 @@ SameController extends Base {
         return $this->renderOutput();
     }
 }
+
+## GetMenu
+
+1. Прописываем func getMenu()
+```
+    private function getMenu(){
+        return Menu::make('renderMenu', function($menu){
+            foreach(ModelMenu::MenuByType(ModelMenu::ADMIN_MENU)->get() as $item){
+                $menu->add($item->title, route($item->path))->id($item->id)->data('permissions', $this->getPermission($item));
+                
+            }
+        })->filter(function($item){
+           if($this->user && $this->user->canDo($item->data('permissions'))){
+                return true;
+           }
+           return false;
+           
+        });
+    }
+ ```
